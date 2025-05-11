@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة التجسس | Spyfall</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            margin: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        #game-code {
+            font-weight: bold;
+            font-size: 24px;
+            margin: 20px 0;
+            color: #e74c3c;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎭 لعبة التجسس</h1>
+        <p>هناك جاسوس بينكم... هل تستطيعون اكتشافه؟</p>
+        
+        <div id="main-menu">
+            <button id="create-game">إنشاء لعبة جديدة</button>
+            <button id="join-game">الانضمام إلى لعبة</button>
+        </div>
+        
+        <div id="game-code-section" class="hidden">
+            <p>شارك هذا الرمز مع الأصدقاء:</p>
+            <div id="game-code">XXXX</div>
+            <button id="start-game">بدء اللعبة</button>
+        </div>
+        
+        <div id="join-section" class="hidden">
+            <input type="text" id="code-input" placeholder="أدخل رمز اللعبة">
+            <button id="confirm-join">تأكيد الانضمام</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('create-game').addEventListener('click', function() {
+            document.getElementById('main-menu').classList.add('hidden');
+            document.getElementById('game-code-section').classList.remove('hidden');
+            
+            // إنشاء رمز لعبة عشوائي
+            const gameCode = Math.random().toString(36).substr(2, 5).toUpperCase();
+            document.getElementById('game-code').textContent = gameCode;
+        });
+        
+        document.getElementById('join-game').addEventListener('click', function() {
+            document.getElementById('main-menu').classList.add('hidden');
+            document.getElementById('join-section').classList.remove('hidden');
+        });
+        
+        document.getElementById('confirm-join').addEventListener('click', function() {
+            const gameCode = document.getElementById('code-input').value.trim();
+            if(gameCode) {
+                alert('تم الانضمام إلى اللعبة بنجاح!');
+                // هنا سنضيف الانتقال إلى صفحة اللعبة لاحقًا
+            }
+        });
+    </script>
+</body>
+</html>

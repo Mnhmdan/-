@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة التجسس - الجلسة</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        #role-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        #timer {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 15px 0;
+        }
+        #chat {
+            height: 300px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        #question-input {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎭 جلسة اللعبة</h1>
+        
+        <div id="role-info">
+            <p>دورك: <span id="player-role">جار التحميل...</span></p>
+            <p id="location-info">المكان: <span id="game-location">جار التحميل...</span></p>
+        </div>
+        
+        <div id="timer">⏱️ الوقت المتبقي: 8:00</div>
+        
+        <div id="chat"></div>
+        
+        <div>
+            <input type="text" id="question-input" placeholder="اطرح سؤالاً...">
+            <button id="send-question">إرسال</button>
+        </div>
+        
+        <button id="vote-button" style="margin-top: 20px;">تصويت لكشف الجاسوس</button>
+    </div>
+
+    <script>
+        // محاكاة بيانات اللعبة (في النسخة الكاملة سيتم جلبها من URL أو تخزين محلي)
+        const locations = ["مطعم", "مدرسة", "مستشفى", "مطار", "فندق", "سوبرماركت", "حديقة", "مكتبة"];
+        const roles = ["مدني", "جاسوس"];
+        
+        // تعيين دور عشوائي للمستخدم
+        const randomRole = roles[Math.floor(Math.random() * roles.length)];
+        document.getElementById('player-role').textContent = randomRole;
+        
+        // إذا كان مدنياً، نعرض له المكان
+        if(randomRole === 'مدني') {
+            const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+            document.getElementById('game-location').textContent = randomLocation;
+        } else {
+            document.getElementById('location-info').style.display = 'none';
+        }
+        
+        // مؤقت العداد
+        let timeLeft = 480; // 8 دقائق
+        const timerElement = document.getElementById('timer');
+        
+        const timer = setInterval(() => {
+            timeLeft--;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `⏱️ الوقت المتبقي: ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+            
+            if(timeLeft <= 0) {
+                clearInterval(timer);
+                alert(randomRole === 'جاسوس' ? '🎉 فزت! أنت الجاسوس ولم يتم اكتشافك!' : '⏰ انتهى الوقت! الجاسوس لم يتم اكتشافه!');
+            }
+        }, 1000);
+        
+        // نظام المحادثة
+        document.getElementById('send-question').addEventListener('click', function() {
+            const question = document.getElementById('question-input').value.trim();
+            if(question) {
+                const chat = document.getElementById('chat');
+                chat.innerHTML += `<div class="message"><strong>سؤال:</strong> ${question}</div>`;
+                document.getElementById('question-input').value = '';
+                chat.scrollTop = chat.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>
