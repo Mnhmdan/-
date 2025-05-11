@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>غرفة اللعبة</title>
+    <style>
+        #gameContainer {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        #timer {
+            font-size: 24px;
+            color: #f56c6c;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="roleInfo"></div>
+        <div id="timer">08:00</div>
+        <div id="gameContent"></div>
+    </div>
+    <script>
+        // كود إدارة اللعبة سيضاف هنا
+        const params = new URLSearchParams(window.location.search);
+        document.getElementById('roleInfo').innerHTML = `
+            <p>دورك: ${params.get('role') === 'host' ? 'مدني' : 'جاسوس'}</p>
+            ${params.get('role') === 'host' ? 
+                `<p>المكان: ${getRandomLocation()}</p>` : ''}
+        `;
+
+        function getRandomLocation() {
+            const locations = ["مطعم", "مدرسة", "مطار"];
+            return locations[Math.floor(Math.random() * locations.length)];
+        }
+    </script>
+</body>
+</html>
